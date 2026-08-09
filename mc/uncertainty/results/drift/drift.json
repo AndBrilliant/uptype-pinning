@@ -2,9 +2,9 @@
   "spec_version": "v1.0",
   "title": "Reconstruction Drift: 9Q_U(M_Z) \u2192 9Q_U(3 TeV)",
   "method": "Draw-once MC \u2014 endpoints correlated as evolution requires",
-  "n_draws": 100,
-  "n_converged": 100,
-  "runtime_s": 4.748022556304932,
+  "n_draws": 20000,
+  "n_converged": 20000,
+  "runtime_s": 953.1643586158752,
   "central_value": {
     "mz_9Q": 7.977767060728659,
     "tev_9Q": 7.989195109673707,
@@ -14,21 +14,21 @@
   },
   "mc_propagation": {
     "mz": {
-      "nine_Q_mean": 7.977525853786772,
-      "nine_Q_std": 0.0067677773274777,
-      "pct_dev_from_8": -0.28092682766535093
+      "nine_Q_mean": 7.978340521855053,
+      "nine_Q_std": 0.007046342366907019,
+      "pct_dev_from_8": -0.2707434768118411
     },
     "tev": {
-      "nine_Q_mean": 7.98898230424353,
-      "nine_Q_std": 0.006695767711331578,
-      "pct_dev_from_8": -0.1377211969558756
+      "nine_Q_mean": 7.989762559936545,
+      "nine_Q_std": 0.006988639022827826,
+      "pct_dev_from_8": -0.12796800079318826
     },
     "drift": {
-      "value": 0.011456450456757396,
-      "std": 0.00013849738547182277,
-      "p16": 0.011329894750284565,
-      "p84": 0.011591850722061548,
-      "pct_of_8": 0.14320563070946746
+      "value": 0.01142203808149177,
+      "std": 0.00012178557415347303,
+      "p16": 0.011299101681010667,
+      "p84": 0.01154371775693083,
+      "pct_of_8": 0.14277547601864712
     }
   },
   "tabulated": {
@@ -38,10 +38,10 @@
     "drift_pct_of_8": 0.15624999999999112
   },
   "correlation": {
-    "endpoint_correlation": 0.9998455699285684,
-    "independent_drift_std": 0.009520300163252822,
-    "correlated_drift_std": 0.00013849738547182277,
-    "correlation_benefit_pct": 98.54524139893817
+    "endpoint_correlation": 0.9998832145034457,
+    "independent_drift_std": 0.009924314391586992,
+    "correlated_drift_std": 0.00012178557415347303,
+    "correlation_benefit_pct": 98.77285654859229
   },
   "gates": {
     "T1": {

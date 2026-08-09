@@ -1,0 +1,96 @@
+========================================================================
+RECONSTRUCTION DRIFT: 9Q_U(M_Z) → 9Q_U(3 TeV)
+Draw-once MC — endpoints correlated as evolution requires
+========================================================================
+
+── Central-value check (PDG centrals → reconstruct_9q) ──
+  Single-point 9Q_U(M_Z) = 7.9778
+  Archived               = 7.9778
+  |Δ| = 0.000033
+
+  Yukawa triples at M_Z:
+    y_u = 0.00000801
+    y_c = 0.003664
+    y_t = 0.9760
+  Yukawa triples at 3 TeV:
+    y_u = 0.00000666
+    y_c = 0.003046
+    y_t = 0.8323
+  Single-point 9Q_U(M_Z)   = 7.9778
+  Single-point 9Q_U(3 TeV) = 7.9892
+  Single-point drift        = +0.0114
+
+── Draw-once MC (N=20,000) ──
+  5000/20000  (21/s, ETA 716s)
+========================================================================
+RECONSTRUCTION DRIFT: 9Q_U(M_Z) → 9Q_U(3 TeV)
+Draw-once MC — endpoints correlated as evolution requires
+========================================================================
+
+── Central-value check (PDG centrals → reconstruct_9q) ──
+  Single-point 9Q_U(M_Z) = 7.9778
+  Archived               = 7.9778
+  |Δ| = 0.000033
+
+  Yukawa triples at M_Z:
+    y_u = 0.00000801
+    y_c = 0.003664
+    y_t = 0.9760
+  Yukawa triples at 3 TeV:
+    y_u = 0.00000666
+    y_c = 0.003046
+    y_t = 0.8323
+  Single-point 9Q_U(M_Z)   = 7.9778
+  Single-point 9Q_U(3 TeV) = 7.9892
+  Single-point drift        = +0.0114
+
+── Draw-once MC (N=20,000) ──
+  5000/20000  (21/s, ETA 718s)
+  10000/20000  (21/s, ETA 478s)
+  15000/20000  (21/s, ETA 239s)
+  20000/20000  (21/s, ETA 0s)
+  Completed in 953.2s  (20000/20000 converged)
+
+── RESULTS ──
+  9Q_U(M_Z)      = 7.9783 ± 0.0070
+  9Q_U(3 TeV)    = 7.9898 ± 0.0070
+  Drift          = +0.0114 ± 0.0001
+  Drift 68% CI   = [+0.0113, +0.0115]
+
+  CV 9Q(M_Z)     = 7.9778  (-0.278% from 8)
+  CV 9Q(3 TeV)   = 7.9892  (-0.135% from 8)
+
+  MC 9Q(M_Z)     = 7.9783  (-0.271% from 8)
+  MC 9Q(3 TeV)   = 7.9898  (-0.128% from 8)
+
+  Reconstructed drift  = +0.0114  (+0.143% of 8)
+  Tabulated drift      = +0.0125  (0.156% of 8)
+  Tabulated endpoints  = 7.9886 → 8.0011
+
+  Endpoint correlation     = 0.9999
+  Independent-drift σ      = 0.0099
+  Correlated-drift σ       = 0.0001
+  Correlation benefit      = 98.8% narrower
+
+── GATE T1: M_Z central value reproduces archived 7.9778 ──
+  |7.9778 - 7.9778| = 0.000033
+  Tolerance: ≤ 1e-4
+  RESULT: ✅ PASS
+
+── GATE T2: Every reported number is COMPUTED ──
+  All values finite: True
+  RESULT: ✅ PASS
+
+── GATE T3: |9Q(3 TeV) - 9Q(M_Z)| > 1e-4 (evolution is real) ──
+  |drift| = 0.011428
+  Threshold: > 1e-4
+  RESULT: ✅ PASS — evolution is real
+
+Wrote /home/Drew/uptype-pinning/mc/uncertainty/results/drift/drift.json
+Wrote /home/Drew/uptype-pinning/mc/uncertainty/results/drift/gate_T1.json
+Wrote /home/Drew/uptype-pinning/mc/uncertainty/results/drift/gate_T2.json
+Wrote /home/Drew/uptype-pinning/mc/uncertainty/results/drift/gate_T3.json
+
+========================================================================
+ALL GATES PASSED — drift computation complete.
+========================================================================
