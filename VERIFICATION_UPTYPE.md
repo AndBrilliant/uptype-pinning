@@ -199,7 +199,8 @@ else. Proof checking never involved the executable in any case.
 
 ### D. Exact Admissible Domain
 - `delta_max` / `admissible_fraction` — definitions
-- Forward direction (`admissible_of_delta_bound`) — left as a future formalization step; the proof sketch is documented in the source comments
+- Supporting lemma `arccos_neg_one_div_sqrt_two` — `arccos(-1/√2) = 3π/4`
+- Full admissible-domain iff theorem (`|δ - 2πj/3| ≤ delta_max` ↔ nonnegative) — NOT attempted. Per the working spec ("If Stage 2 proves intractable, STOP, keep Stage 1, and record that plainly"), this non-trivial trigonometric inequality was left for future work rather than risking the clean build
 - Gate L1 k=1: exact values certified (`delta_max_one`, `admissible_fraction_one`, `lepton_delta_lt_delta_max`, `lepton_delta_ratio`)
 
 ### Gate L1 Values
@@ -214,5 +215,5 @@ k² = 1:    delta_max = π/12 = 15° exactly (certified in Lean)
            ratio = 8/(3π) ≈ 0.84883 (certified in Lean)
 ```
 
-### Declaration count: 27 (21 original + 6 new)
-### Axiom set: {propext, Classical.choice, Quot.sound} — verified for all 21 original declarations
+### Declaration count: 27 in axiom sweep (21 original + 6 new) + 1 supporting lemma (`arccos_neg_one_div_sqrt_two`) not in sweep driver = 28 theorem/lemma declarations total
+### Axiom set: {propext, Classical.choice, Quot.sound} — verified for all 27 swept declarations; the unswept supporting lemma also compiles cleanly
