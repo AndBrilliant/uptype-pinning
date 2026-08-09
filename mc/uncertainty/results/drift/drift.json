@@ -4,13 +4,13 @@
   "method": "Draw-once MC \u2014 endpoints correlated as evolution requires",
   "n_draws": 100,
   "n_converged": 100,
-  "runtime_s": 4.735165596008301,
+  "runtime_s": 4.748022556304932,
   "central_value": {
     "mz_9Q": 7.977767060728659,
-    "tev_9Q": 7.977767060728661,
-    "drift": 2.6645352591003757e-15,
+    "tev_9Q": 7.989195109673707,
+    "drift": 0.011428048945048452,
     "mz_pct_dev_from_8": -0.2779117408917675,
-    "tev_pct_dev_from_8": -0.2779117408917342
+    "tev_pct_dev_from_8": -0.13506112907866186
   },
   "mc_propagation": {
     "mz": {
@@ -19,16 +19,16 @@
       "pct_dev_from_8": -0.28092682766535093
     },
     "tev": {
-      "nine_Q_mean": 7.977525853786772,
-      "nine_Q_std": 0.006767777327477592,
-      "pct_dev_from_8": -0.28092682766535093
+      "nine_Q_mean": 7.98898230424353,
+      "nine_Q_std": 0.006695767711331578,
+      "pct_dev_from_8": -0.1377211969558756
     },
     "drift": {
-      "value": 8.881784197001253e-18,
-      "std": 1.5813317752641553e-15,
-      "p16": -1.7763568394002505e-15,
-      "p84": 1.7763568394002505e-15,
-      "pct_of_8": 1.1102230246251565e-16
+      "value": 0.011456450456757396,
+      "std": 0.00013849738547182277,
+      "p16": 0.011329894750284565,
+      "p84": 0.011591850722061548,
+      "pct_of_8": 0.14320563070946746
     }
   },
   "tabulated": {
@@ -38,10 +38,10 @@
     "drift_pct_of_8": 0.15624999999999112
   },
   "correlation": {
-    "endpoint_correlation": 1.0,
-    "independent_drift_std": 0.009571082483640027,
-    "correlated_drift_std": 1.5813317752641553e-15,
-    "correlation_benefit_pct": 99.99999999998349
+    "endpoint_correlation": 0.9998455699285684,
+    "independent_drift_std": 0.009520300163252822,
+    "correlated_drift_std": 0.00013849738547182277,
+    "correlation_benefit_pct": 98.54524139893817
   },
   "gates": {
     "T1": {
@@ -55,6 +55,12 @@
     "T2": {
       "description": "Every reported number must be COMPUTED (finite, non-NaN)",
       "all_finite": true,
+      "pass": true
+    },
+    "T3": {
+      "description": "|9Q_U(3 TeV) - 9Q_U(M_Z)| must exceed 1e-4 \u2014 evolution is real",
+      "drift_abs": 0.011428048945048452,
+      "threshold": 0.0001,
       "pass": true
     }
   }
