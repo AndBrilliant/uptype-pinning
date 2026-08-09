@@ -440,13 +440,13 @@ theorem pinning_within_0_15_percent :
 
 /-- **IVT crossing, generic form.** If `f` is continuous on `[a,b]` and
 `f a < 8 < f b`, there exists `μ ∈ (a,b)` with `f μ = 8`. -/
-theorem crossing_exists_of_continuous {f : ℝ → ℝ} {a b : ℝ} (hab : a ≤ b)
+theorem crossing_exists_of_continuous {f : ℝ → ℝ} {a b : ℝ} (hab : a < b)
     (hf : ContinuousOn f (Set.Icc a b)) (hfa : f a < 8) (hfb : 8 < f b) :
     ∃ μ ∈ Set.Ioo a b, f μ = 8 := by
   have h8 : (8 : ℝ) ∈ Set.Ioo (f a) (f b) := by
     constructor <;> linarith
-  have h := intermediate_value_Ioo hab hf h8
-  simpa using h
+  have h := intermediate_value_Ioo hab.le hf h8
+  exact h
 
 /-- **Crossing certified (continuity assumed).** Given the tabulated straddle
 and a continuous RG trajectory, there exists `μ ∈ (M_Z, 3 TeV)` with `9Q_U(μ)=8`.
@@ -460,7 +460,7 @@ theorem crossing_certified {v : ℝ → Fin 3 → ℝ}
   obtain ⟨hMZ, h3TeV⟩ := crossing_bracketed
   rw [← h_mz] at hMZ
   rw [← h_3tev] at h3TeV
-  have h91_3000 : (91 : ℝ) ≤ 3000 := by norm_num
+  have h91_3000 : (91 : ℝ) < 3000 := by norm_num
   exact crossing_exists_of_continuous h91_3000 h_cont hMZ h3TeV
 
 /-! ## D. EXACT ADMISSIBLE DOMAIN -/
