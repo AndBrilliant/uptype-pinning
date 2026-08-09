@@ -1,0 +1,5 @@
+{
+  "description": "Every reported number must be COMPUTED (finite, non-NaN)",
+  "all_finite": true,
+  "pass": true
+}

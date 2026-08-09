@@ -1,0 +1,61 @@
+{
+  "spec_version": "v1.0",
+  "title": "Reconstruction Drift: 9Q_U(M_Z) \u2192 9Q_U(3 TeV)",
+  "method": "Draw-once MC \u2014 endpoints correlated as evolution requires",
+  "n_draws": 100,
+  "n_converged": 100,
+  "runtime_s": 4.735165596008301,
+  "central_value": {
+    "mz_9Q": 7.977767060728659,
+    "tev_9Q": 7.977767060728661,
+    "drift": 2.6645352591003757e-15,
+    "mz_pct_dev_from_8": -0.2779117408917675,
+    "tev_pct_dev_from_8": -0.2779117408917342
+  },
+  "mc_propagation": {
+    "mz": {
+      "nine_Q_mean": 7.977525853786772,
+      "nine_Q_std": 0.0067677773274777,
+      "pct_dev_from_8": -0.28092682766535093
+    },
+    "tev": {
+      "nine_Q_mean": 7.977525853786772,
+      "nine_Q_std": 0.006767777327477592,
+      "pct_dev_from_8": -0.28092682766535093
+    },
+    "drift": {
+      "value": 8.881784197001253e-18,
+      "std": 1.5813317752641553e-15,
+      "p16": -1.7763568394002505e-15,
+      "p84": 1.7763568394002505e-15,
+      "pct_of_8": 1.1102230246251565e-16
+    }
+  },
+  "tabulated": {
+    "mz_9Q": 7.9886,
+    "tev_9Q": 8.0011,
+    "drift": 0.01249999999999929,
+    "drift_pct_of_8": 0.15624999999999112
+  },
+  "correlation": {
+    "endpoint_correlation": 1.0,
+    "independent_drift_std": 0.009571082483640027,
+    "correlated_drift_std": 1.5813317752641553e-15,
+    "correlation_benefit_pct": 99.99999999998349
+  },
+  "gates": {
+    "T1": {
+      "description": "M_Z single-point central value must reproduce 7.9778 to 1e-4",
+      "reconstructed": 7.977767060728659,
+      "archived": 7.9778,
+      "difference": 3.293927134162544e-05,
+      "tolerance": 0.0001,
+      "pass": true
+    },
+    "T2": {
+      "description": "Every reported number must be COMPUTED (finite, non-NaN)",
+      "all_finite": true,
+      "pass": true
+    }
+  }
+}

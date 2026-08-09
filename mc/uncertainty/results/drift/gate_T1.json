@@ -1,0 +1,8 @@
+{
+  "description": "M_Z single-point central value must reproduce 7.9778 to 1e-4",
+  "reconstructed": 7.977767060728659,
+  "archived": 7.9778,
+  "difference": 3.293927134162544e-05,
+  "tolerance": 0.0001,
+  "pass": true
+}
