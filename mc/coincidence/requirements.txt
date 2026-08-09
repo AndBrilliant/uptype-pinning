@@ -1,0 +1,4 @@
+# Pinned so the PCG64 stream and the reported counts are reproducible.
+# results.json records the versions actually used for the committed run.
+numpy==1.26.4
+scipy==1.13.1

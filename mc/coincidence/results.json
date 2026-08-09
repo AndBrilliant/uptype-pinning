@@ -1,0 +1,54 @@
+{
+  "spec_sha256": "3948c0d5b42c0881ae0103488182c9f56aa9fa3bed2c9bcb620d74a52d0d7397",
+  "spec": "uptype-pinning/single-claim-coincidence-budget/v2\nobservable: 9Q, Q = (sum m_i) / (sum sqrt(m_i))^2, degree-zero homogeneous\nnull: three iid log-coordinates, uniform over a span of W = ln(4e5) = 12.899220 (5.602060 decades)\ndraw order: m = exp(U(log 0.5, log 2e5)), shape (batch, 3)\ndistance: absolute in 9Q, |9Q - target| <= 0.0114\ntolerance origin: the observed miss |9Q_U(M_Z) - 8| at M_Z\nmenu: irreducible p/q with p,q <= 9 in the closed admissible range 1/3 <= Q <= 1\nN: 100000000\n",
+  "seed": 961069269,
+  "seed_kind": "spec-derived",
+  "n": 100000000,
+  "tolerance": 0.0114,
+  "distance": "absolute in 9Q",
+  "support_decades": 5.602059991327963,
+  "menu": [
+    "1/3",
+    "3/8",
+    "2/5",
+    "3/7",
+    "4/9",
+    "1/2",
+    "5/9",
+    "4/7",
+    "3/5",
+    "5/8",
+    "2/3",
+    "5/7",
+    "3/4",
+    "7/9",
+    "4/5",
+    "5/6",
+    "6/7",
+    "7/8",
+    "8/9",
+    "1"
+  ],
+  "menu_size": 20,
+  "q9_min": 3.0000000519313454,
+  "q9_max": 8.942638108018775,
+  "fixed": {
+    "hits": 338986,
+    "f": 0.00338986,
+    "cp95_lo": 0.0033784773333328296,
+    "cp95_hi": 0.003401271430241681
+  },
+  "menu_result": {
+    "hits": 7107204,
+    "f": 0.07107204,
+    "cp95_lo": 0.07102168709372012,
+    "cp95_hi": 0.07112241773851528
+  },
+  "env": {
+    "python": "3.9.21",
+    "numpy": "1.26.4",
+    "scipy": "1.13.1",
+    "platform": "Linux-5.14.0-503.35.1.el9_5.x86_64-x86_64-with-glibc2.34"
+  },
+  "git_commit": "70a7f84051a513a04783ce894d1aaf427a965ea9"
+}

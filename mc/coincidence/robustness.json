@@ -1,0 +1,53 @@
+{
+  "spans": [
+    {
+      "decades": 5.0,
+      "fixed_hits": 29258,
+      "menu_hits": 727001,
+      "n": 10000000,
+      "f_fixed": 0.0029258,
+      "f_menu": 0.0727001
+    },
+    {
+      "decades": 5.60206,
+      "fixed_hits": 34302,
+      "menu_hits": 710127,
+      "n": 10000000,
+      "f_fixed": 0.0034302,
+      "f_menu": 0.0710127
+    },
+    {
+      "decades": 6.0,
+      "fixed_hits": 35797,
+      "menu_hits": 700268,
+      "n": 10000000,
+      "f_fixed": 0.0035797,
+      "f_menu": 0.0700268
+    },
+    {
+      "decades": 7.0,
+      "fixed_hits": 38655,
+      "menu_hits": 668258,
+      "n": 10000000,
+      "f_fixed": 0.0038655,
+      "f_menu": 0.0668258
+    },
+    {
+      "decades": 8.0,
+      "fixed_hits": 39124,
+      "menu_hits": 666685,
+      "n": 10000000,
+      "f_fixed": 0.0039124,
+      "f_menu": 0.0666685
+    }
+  ],
+  "metric": {
+    "n": 10000000,
+    "absolute_hits": 710126,
+    "relative_hits": 493218,
+    "f_absolute": 0.0710126,
+    "f_relative": 0.0493218
+  },
+  "seed": 961069269,
+  "tolerance": 0.0114
+}

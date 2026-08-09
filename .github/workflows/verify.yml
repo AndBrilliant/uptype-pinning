@@ -1,0 +1,70 @@
+name: verify
+on: [push, pull_request]
+
+jobs:
+  monte-carlo:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: mc/coincidence
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.11'}
+      - run: pip install -r requirements.txt
+
+      # Re-runs production and asserts the committed counts, CP intervals,
+      # spec hash, seed derivation, menu enumeration, and the 9Q bound.
+      - name: Reproduce committed results
+        run: python3 verify.py
+
+      # Independent deterministic evaluation of the same frequencies.
+      - name: Deterministic quadrature cross-check
+        run: python3 quadrature.py
+
+      - name: Robustness sweep
+        run: python3 robustness.py --quick
+
+      # Generated files must match what the executable produces.
+      - name: Generated outputs are current
+        run: |
+          cp RESULTS.md /tmp/RESULTS.committed
+          python3 engine_p4.py > /dev/null
+          # env/commit lines legitimately differ between machines
+          strip() { grep -vE '^\| (Python / NumPy / SciPy|Commit) ' "$1"; }
+          diff <(strip /tmp/RESULTS.committed) <(strip RESULTS.md) \
+            || { echo "RESULTS.md is stale; rerun engine_p4.py"; exit 1; }
+
+  lean-certificates:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: leanprover/lean-action@v1
+        with:
+          build-args: LeanMath
+          test: false
+          lint: false
+
+      - name: Axiom sweep
+        run: |
+          lake env lean LeanMath/AxiomCheckUpType.lean | tee axioms.txt
+          lake env lean LeanMath/AxiomCheck.lean       | tee -a axioms.txt
+
+      - name: Enforce standard axiom set
+        run: |
+          bad=$(grep 'depends on axioms' axioms.txt \
+                | grep -v '\[propext, Classical.choice, Quot.sound\]' || true)
+          if [ -n "$bad" ]; then
+            echo "Non-standard axiom dependency:"; echo "$bad"; exit 1
+          fi
+          if grep -q sorryAx axioms.txt; then echo "sorryAx present"; exit 1; fi
+          n=$(grep -c 'depends on axioms' axioms.txt)
+          echo "declarations swept: $n"
+          [ "$n" -eq 36 ] || { echo "expected 36 declarations, got $n"; exit 1; }
+
+      - name: Proof-bypass scan
+        run: |
+          if grep -nE '\b(sorry|admit|sorryAx|native_decide|opaque|unsafe)\b' \
+               LeanMath/UpTypeParticipation.lean | grep -v '^41:'; then
+            echo "proof-bypassing construct outside the header comment"; exit 1
+          fi
