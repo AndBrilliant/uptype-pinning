@@ -1,0 +1,44 @@
+========================================================================
+INDEPENDENT RECONSTRUCTION OF 9Q_U(M_Z)
+PDG 2024 primaries → 4-loop QCD → M_Z → 9Q
+========================================================================
+
+── Step 1: Central-value reconstruction ──
+  Completed in 0.0s
+  m_u(M_Z)  = 1.3945 MeV
+  m_c(M_Z)  = 0.6379 GeV
+  m_t(M_Z)  = 169.9267 GeV
+  m_t(m_t)  = 162.1041 GeV
+  y_u(M_Z)  = 0.00000801
+  y_c(M_Z)  = 0.003664
+  y_t(M_Z)  = 0.9760
+  9Q_U(M_Z) = 7.9778
+
+── Step 2: AHS tabulation check ──
+  From AHS Yukawas: 9Q = 7.9886
+  AHS quoted:       9Q = 7.9886
+  Match: True (Δ = -1.37e-05)
+
+── Step 3: MC uncertainty propagation (N=100,000) ──
+  20000/100000 (30/s, ETA 2640s)
+  40000/100000 (31/s, ETA 1964s)
+  60000/100000 (31/s, ETA 1301s)
+  80000/100000 (31/s, ETA 650s)
+  100000/100000 (31/s, ETA 0s)
+  Completed in 3248.3s (100000/100000 converged)
+  Reconstructed 9Q = 7.9783 ± 0.0070
+  68% CI = [7.9712, 7.9853]
+
+── Step 4: GATE CHECKS ──
+
+  GATE R1: Agreement with AHS within combined uncertainty
+    Reconstructed 9Q  = 7.9783 ± 0.0070
+    AHS tabulated 9Q  = 7.9886 ± 0.0074
+    |Δ| = 0.0103
+    Combined σ = 0.0102
+    Pull = 1.01σ
+    RESULT: ❌ FAIL — STOP, DO NOT TUNE
+
+  ⛔ GATE R1 FAILED. Reconstruction does not agree with AHS
+     within combined uncertainties. Stopping as required.
+     DO NOT TUNE the pipeline to make it pass.

@@ -71,3 +71,20 @@ open UpType
 #print axioms UpType.crossing_bracketed
 #print axioms UpType.pinning_within_0_15_percent
 
+-- v2.2: IVT Crossing
+#check @UpType.crossing_exists_of_continuous
+#check @UpType.crossing_certified
+#print axioms UpType.crossing_exists_of_continuous
+#print axioms UpType.crossing_certified
+
+-- v2.2: Admissible Domain + Gate L1
+#check @UpType.delta_max
+#check @UpType.admissible_fraction
+#check @UpType.delta_max_one
+#check @UpType.admissible_fraction_one
+#check @UpType.lepton_delta_lt_delta_max
+#check @UpType.lepton_delta_ratio
+#print axioms UpType.delta_max_one
+#print axioms UpType.admissible_fraction_one
+#print axioms UpType.lepton_delta_lt_delta_max
+#print axioms UpType.lepton_delta_ratio

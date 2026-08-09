@@ -436,4 +436,85 @@ theorem pinning_within_0_15_percent :
   · rw [abs_le]; constructor <;> linarith
   · rw [abs_le]; constructor <;> linarith
 
+/-! ## C. IVT CROSSING -/
+
+/-- **IVT crossing, generic form.** If `f` is continuous on `[a,b]` and
+`f a < 8 < f b`, there exists `μ ∈ (a,b)` with `f μ = 8`. -/
+theorem crossing_exists_of_continuous {f : ℝ → ℝ} {a b : ℝ} (hab : a ≤ b)
+    (hf : ContinuousOn f (Set.Icc a b)) (hfa : f a < 8) (hfb : 8 < f b) :
+    ∃ μ ∈ Set.Ioo a b, f μ = 8 := by
+  have h8 : (8 : ℝ) ∈ Set.Ioo (f a) (f b) := by
+    constructor <;> linarith
+  have h := intermediate_value_Ioo hab hf h8
+  simpa using h
+
+/-- **Crossing certified (continuity assumed).** Given the tabulated straddle
+and a continuous RG trajectory, there exists `μ ∈ (M_Z, 3 TeV)` with `9Q_U(μ)=8`.
+Continuity of the SM RG trajectory is an explicit hypothesis — the ODE is not
+formalized. -/
+theorem crossing_certified {v : ℝ → Fin 3 → ℝ}
+    (h_cont : ContinuousOn (fun μ => 9 * Q (v μ)) (Set.Icc (91 : ℝ) 3000))
+    (h_mz : 9 * Q (v 91) = 9 * Q yMZ)
+    (h_3tev : 9 * Q (v 3000) = 9 * Q y3TeV) :
+    ∃ μ ∈ Set.Ioo (91 : ℝ) 3000, 9 * Q (v μ) = 8 := by
+  obtain ⟨hMZ, h3TeV⟩ := crossing_bracketed
+  rw [← h_mz] at hMZ
+  rw [← h_3tev] at h3TeV
+  have h91_3000 : (91 : ℝ) ≤ 3000 := by norm_num
+  exact crossing_exists_of_continuous h91_3000 h_cont hMZ h3TeV
+
+/-! ## D. EXACT ADMISSIBLE DOMAIN -/
+
+/-- `δ_max(k) = arccos(-1/(√2·k)) - 2π/3`. -/
+def delta_max (k : ℝ) : ℝ := Real.arccos (-1 / (Real.sqrt 2 * k)) - 2 * π / 3
+
+/-- `admissible_fraction(k) = 3·δ_max/π`. -/
+def admissible_fraction (k : ℝ) : ℝ := 3 * delta_max k / π
+
+/-! ### GATE L1 — admissible-domain numerics -/
+
+/-- `arccos(-1/√2) = 3π/4`. -/
+lemma arccos_neg_one_div_sqrt_two : Real.arccos (-1 / Real.sqrt 2) = 3 * π / 4 := by
+  have h_cos : cos (3 * π / 4) = -1 / Real.sqrt 2 := by
+    calc
+      cos (3 * π / 4) = cos (π - π / 4) := by ring
+      _ = -cos (π / 4) := by rw [Real.cos_pi_sub]
+      _ = -(Real.sqrt 2 / 2) := by rw [Real.cos_pi_div_four]
+      _ = -1 / Real.sqrt 2 := by
+        rw [show (Real.sqrt 2 / 2) = (Real.sqrt 2 / (Real.sqrt 2 ^ 2)) by
+          rw [Real.sq_sqrt (by norm_num : 0 ≤ (2 : ℝ))]]
+        field_simp [show Real.sqrt 2 ≠ 0 from by positivity]
+  have h_range0 : 0 ≤ 3 * π / 4 := by nlinarith [pi_pos]
+  have h_range1 : 3 * π / 4 ≤ π := by nlinarith [pi_pos]
+  rw [← h_cos, Real.arccos_cos h_range0 h_range1]
+
+/-- **Gate L1, k=1:** `delta_max 1 = π/12` (exact, 15°). -/
+theorem delta_max_one : delta_max 1 = π / 12 := by
+  rw [delta_max]
+  norm_num [arccos_neg_one_div_sqrt_two]
+  ring
+
+/-- **Gate L1, k=1:** `admissible_fraction 1 = 1/4` (exact). -/
+theorem admissible_fraction_one : admissible_fraction 1 = 1 / 4 := by
+  rw [admissible_fraction, delta_max_one]
+  field_simp [show π ≠ 0 from by exact ne_of_gt pi_pos]
+  ring
+
+/-- **Gate L1, k=1:** lepton `δ = 2/9` < `δ_max = π/12`. -/
+theorem lepton_delta_lt_delta_max : (2/9 : ℝ) < delta_max 1 := by
+  rw [delta_max_one]
+  have hpi : (8/3 : ℝ) < π := by linarith [Real.pi_gt_three]
+  nlinarith
+
+/-- **Gate L1, k=1:** ratio `(2/9) / δ_max = 8/(3π)`. -/
+theorem lepton_delta_ratio : (2/9 : ℝ) / delta_max 1 = 8 / (3 * π) := by
+  rw [delta_max_one]
+  field_simp [show π ≠ 0 from by exact ne_of_gt pi_pos]
+  ring
+
+-- GATE L1, k²=5/3: numeric values (computed externally via Python)
+-- delta_max(√(5/3)) = arccos(-√(3/10)) - 2π/3 ≈ 0.056041 rad = 3.2109°
+-- admissible_fraction = 3·δ_max/π ≈ 0.05352
+-- Spec target δ_max = 0.056043 rad (3.2110°) — discrep 2.0×10⁻⁶ rad
+
 end UpType

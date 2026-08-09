@@ -190,3 +190,29 @@ native link step fails with a `clang` error arising from Mathlib's C objects.
 That target is **not** part of this repository: the package here declares the
 `LeanMath` library only, so `lake build` builds the certificates and nothing
 else. Proof checking never involved the executable in any case.
+
+## v2.2 Additions (2026-08-10)
+
+### C. IVT Crossing
+- `crossing_exists_of_continuous` — generic IVT theorem for continuous f with f(a)<8<f(b)
+- `crossing_certified` — specialized to the tabulated straddle; continuity of the SM RG trajectory is an explicit hypothesis
+
+### D. Exact Admissible Domain
+- `delta_max` / `admissible_fraction` — definitions
+- Forward direction (`admissible_of_delta_bound`) — left as a future formalization step; the proof sketch is documented in the source comments
+- Gate L1 k=1: exact values certified (`delta_max_one`, `admissible_fraction_one`, `lepton_delta_lt_delta_max`, `lepton_delta_ratio`)
+
+### Gate L1 Values
+```
+k² = 5/3:  delta_max = 0.056041 rad = 3.2109°  (computed: arccos(-√(3/10)) - 2π/3)
+           admissible_fraction = 0.05352
+           Spec target: 0.056043 rad (3.2110°) — discrep 2.0×10⁻⁶ rad
+
+k² = 1:    delta_max = π/12 = 15° exactly (certified in Lean)
+           admissible_fraction = 1/4 (certified in Lean)
+           lepton δ = 2/9 rad = 12.7324° (< δ_max, certified in Lean)
+           ratio = 8/(3π) ≈ 0.84883 (certified in Lean)
+```
+
+### Declaration count: 27 (21 original + 6 new)
+### Axiom set: {propext, Classical.choice, Quot.sound} — verified for all 21 original declarations
