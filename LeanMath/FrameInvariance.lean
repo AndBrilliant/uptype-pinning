@@ -1,32 +1,21 @@
 /-
-Frame invariance of same-sector mass relations.
+Frame invariance of same-sector claims.
 
-Companion to the heavy-pair letter and to the light-sector map.
+The corpus contains claims of two kinds, and the distinction decides which
+are scale-free facts and which are statements about a chosen evaluation
+point.  Under pure QCD running inside a fixed-n_f window every member of a
+same-charge sector is multiplied by one common factor Z(mu).  Consequently:
 
-WHY THIS MATTERS.  The corpus contains three kinds of statement and they are
-not equally robust:
+  * a RATIO of two same-sector masses is unchanged            (ratio_invariant)
+  * the participation ratio of a same-sector triple is unchanged  (Q_invariant)
+  * a relation tying ONE mass to an external fixed scale is NOT  (anchor_not_invariant)
 
-  frame-invariant   holds at every renormalization scale
-  scale-fixed       holds at one scale, that scale determined independently
-  convention-bound  requires a choice between defensible alternatives
+The third statement is the one that matters and it is proved, not asserted:
+the anchor changes by exactly the factor Z, so a claim of the form
+`m = c * S` with `S` inert can hold at at most one scale.
 
-Under pure QCD running inside a fixed-nf window every member of a same-charge
-triple carries the SAME anomalous dimension, so the masses are multiplied by a
-common factor Z(mu).  This file certifies which functionals survive that.
-
-CERTIFIED HERE
-  ratio_invariant       m_j / m_i is unchanged
-  Q_invariant           the participation ratio is unchanged (degree-zero)
-  Qinv_invariant        the ratio in INVERSE coordinates is likewise unchanged
-  geom_mean_not_invariant  a geometric mean against an EXTERNAL scale is NOT:
-                        it picks up a factor sqrt(Z), so such a relation
-                        selects a scale rather than holding at all of them
-  power_ratio_invariant the protection is power-blind: (sum v^p)/(sum v^(p/2))^2
-                        sheds the common factor for every real exponent p
-
-CONSEQUENCE.  m_s/m_d = alpha^-2 is a scale-free claim; m_s = alpha^2 mu* is
-not, and is a statement about the scale mu* specifically.  The letter's
-heavy-pair relations are of the second kind and are labelled as such.
+This is what separates `m_s/m_d = alpha^-2`, which is frame-free, from
+`m_s = alpha^2 mu*`, which is a statement about mu* specifically.
 
 Toolchain: leanprover/lean4 v4.31.0 with Mathlib.
 -/
@@ -38,91 +27,72 @@ namespace FrameInvariance
 
 /-! ## Common rescaling -/
 
-/-- Ratios of same-sector masses are invariant under a common rescaling. -/
-theorem ratio_invariant {Z x y : ℝ} (hZ : Z ≠ 0) (hy : y ≠ 0) :
-    (Z * x) / (Z * y) = x / y := by
-  field_simp
+/-- Flavour-blind evolution: one common positive factor on every member. -/
+def scale (Z : ℝ) (v : Fin 3 → ℝ) : Fin 3 → ℝ := fun i => Z * v i
 
-/-- The participation ratio is invariant: it is degree-zero homogeneous. -/
-theorem Q_invariant {Z a b c : ℝ} (hZ : 0 < Z) (ha : 0 ≤ a) (hb : 0 ≤ b)
-    (hc : 0 ≤ c) (hS : Real.sqrt a + Real.sqrt b + Real.sqrt c ≠ 0) :
-    (Z*a + Z*b + Z*c) / (Real.sqrt (Z*a) + Real.sqrt (Z*b) + Real.sqrt (Z*c)) ^ 2
-      = (a + b + c) / (Real.sqrt a + Real.sqrt b + Real.sqrt c) ^ 2 := by
-  have hZ0 : (0:ℝ) ≤ Z := hZ.le
-  rw [Real.sqrt_mul hZ0, Real.sqrt_mul hZ0, Real.sqrt_mul hZ0]
-  have hsz : Real.sqrt Z ≠ 0 := ne_of_gt (Real.sqrt_pos.mpr hZ)
-  have hzz : Real.sqrt Z * Real.sqrt Z = Z := Real.mul_self_sqrt hZ0
-  have : Real.sqrt Z * Real.sqrt a + Real.sqrt Z * Real.sqrt b
-       + Real.sqrt Z * Real.sqrt c
-       = Real.sqrt Z * (Real.sqrt a + Real.sqrt b + Real.sqrt c) := by ring
-  rw [this, mul_pow]
-  field_simp
-  nlinarith [hzz]
+/-- Ratios of same-sector members are invariant. -/
+theorem ratio_invariant {Z : ℝ} (hZ : Z ≠ 0) (v : Fin 3 → ℝ) (i j : Fin 3)
+    (hj : v j ≠ 0) :
+    scale Z v i / scale Z v j = v i / v j := by
+  unfold scale
+  rw [mul_div_mul_left _ _ hZ]
 
-/-- The same holds in inverse coordinates: the down-sector cone is frame-free. -/
-theorem Qinv_invariant {Z a b c : ℝ} (hZ : 0 < Z) (ha : 0 < a) (hb : 0 < b)
-    (hc : 0 < c) :
-    (1/(Z*a) + 1/(Z*b) + 1/(Z*c))
-      / (Real.sqrt (1/(Z*a)) + Real.sqrt (1/(Z*b)) + Real.sqrt (1/(Z*c))) ^ 2
-    = (1/a + 1/b + 1/c) / (Real.sqrt (1/a) + Real.sqrt (1/b) + Real.sqrt (1/c)) ^ 2 := by
-  have hZ' : Z ≠ 0 := ne_of_gt hZ
-  have e : ∀ x : ℝ, 0 < x → (1:ℝ)/(Z*x) = (1/Z) * (1/x) := by
-    intro x hx; field_simp
-  rw [e a ha, e b hb, e c hc]
-  have hinv : (0:ℝ) < 1/Z := by positivity
-  exact Q_invariant hinv (by positivity) (by positivity) (by positivity)
-    (by positivity)
+/-- The sum scales by `Z`. -/
+theorem sum_scale (Z : ℝ) (v : Fin 3 → ℝ) :
+    (scale Z v 0 + scale Z v 1 + scale Z v 2) = Z * (v 0 + v 1 + v 2) := by
+  unfold scale; ring
 
-/-! ## What is NOT invariant -/
+/-- The square-root sum scales by `√Z`. -/
+theorem sqrtsum_scale {Z : ℝ} (hZ : 0 ≤ Z) (v : Fin 3 → ℝ) (h : ∀ i, 0 ≤ v i) :
+    (Real.sqrt (scale Z v 0) + Real.sqrt (scale Z v 1) + Real.sqrt (scale Z v 2))
+      = Real.sqrt Z * (Real.sqrt (v 0) + Real.sqrt (v 1) + Real.sqrt (v 2)) := by
+  unfold scale
+  rw [Real.sqrt_mul hZ, Real.sqrt_mul hZ, Real.sqrt_mul hZ]
+  ring
 
-/-- A relation of the form `m_j^2 = m_i * S` with `S` an external, non-running
-scale is **not** invariant: rescaling the quarks by `Z` multiplies the left
-side by `Z^2` and the right by `Z`, so the relation can hold at one scale
-only.  This is the formal content of the distinction between frame-invariant
-and scale-fixed statements. -/
-theorem external_scale_not_invariant {Z x y S : ℝ} (hZ : 0 < Z) (hZ1 : Z ≠ 1)
-    (hx : 0 < x) (hy : 0 < y) (hS : 0 < S) (h : x ^ 2 = y * S) :
-    (Z*x) ^ 2 ≠ (Z*y) * S := by
-  intro hcon
-  have hyS : (0:ℝ) < y * S := mul_pos hy hS
-  have h1 : Z ^ 2 * (y * S) = Z * (y * S) := by
-    calc Z ^ 2 * (y * S) = (Z * x) ^ 2 := by rw [← h]; ring
-      _ = (Z * y) * S := hcon
-      _ = Z * (y * S) := by ring
-  have h2 : Z ^ 2 = Z := mul_right_cancel₀ (ne_of_gt hyS) h1
-  have hz1 : Z = 1 := by
-    have hz : Z * (Z - 1) = 0 := by nlinarith [h2]
-    rcases mul_eq_zero.mp hz with h3 | h3
-    · exact absurd h3 (ne_of_gt hZ)
-    · linarith
-  exact hZ1 hz1
+/-- The participation ratio of a same-sector triple is invariant. -/
+theorem Q_invariant {Z : ℝ} (hZ : 0 < Z) (v : Fin 3 → ℝ) (h : ∀ i, 0 < v i) :
+    (scale Z v 0 + scale Z v 1 + scale Z v 2) /
+      (Real.sqrt (scale Z v 0) + Real.sqrt (scale Z v 1) + Real.sqrt (scale Z v 2)) ^ 2
+    = (v 0 + v 1 + v 2) /
+      (Real.sqrt (v 0) + Real.sqrt (v 1) + Real.sqrt (v 2)) ^ 2 := by
+  have hnn : ∀ i, 0 ≤ v i := fun i => (h i).le
+  have hs0 := Real.sqrt_pos.mpr (h 0)
+  have hs1 := Real.sqrt_pos.mpr (h 1)
+  have hs2 := Real.sqrt_pos.mpr (h 2)
+  have hS : (0:ℝ) < Real.sqrt (v 0) + Real.sqrt (v 1) + Real.sqrt (v 2) := by linarith
+  have hZs : (0:ℝ) < Real.sqrt Z := Real.sqrt_pos.mpr hZ
+  rw [sum_scale, sqrtsum_scale hZ.le v hnn, mul_pow]
+  have hZZ : Real.sqrt Z ^ 2 = Z := Real.sq_sqrt hZ.le
+  rw [hZZ]
+  rw [mul_div_mul_left _ _ (ne_of_gt hZ)]
 
-/-! ## Power-blindness -/
+/-! ## Anchored relations are not invariant
 
-/-- Squaring the half-power recovers the full power, for a positive base. -/
-theorem half_pow_sq {w p : ℝ} (hw : 0 < w) : (w ^ (p/2)) ^ (2:ℕ) = w ^ p := by
-  rw [← Real.rpow_natCast (w ^ (p/2)) 2, ← Real.rpow_mul hw.le]
-  norm_num
+A claim of the form `v i = c * S`, with `S` an externally fixed scale that
+does not participate in the rescaling, holds after rescaling only if `Z = 1`.
+-/
 
-/-- **Power-blindness.**  The protection does not depend on the exponent: for
-every real `p`, the generalized ratio sheds a common factor.  Setting `p = 1`
-recovers `Q_invariant`; the inverse-coordinate cone is `p = -1`. -/
-theorem power_ratio_invariant {Z a b c : ℝ} (hZ : 0 < Z) (ha : 0 < a)
-    (hb : 0 < b) (hc : 0 < c) (p : ℝ)
-    (hS : a ^ (p/2) + b ^ (p/2) + c ^ (p/2) ≠ 0) :
-    ((Z*a) ^ p + (Z*b) ^ p + (Z*c) ^ p)
-      / ((Z*a) ^ (p/2) + (Z*b) ^ (p/2) + (Z*c) ^ (p/2)) ^ (2:ℕ)
-    = (a ^ p + b ^ p + c ^ p) / (a ^ (p/2) + b ^ (p/2) + c ^ (p/2)) ^ (2:ℕ) := by
-  have hZ0 : (0:ℝ) ≤ Z := hZ.le
-  rw [Real.mul_rpow hZ0 ha.le, Real.mul_rpow hZ0 hb.le, Real.mul_rpow hZ0 hc.le,
-      Real.mul_rpow hZ0 ha.le, Real.mul_rpow hZ0 hb.le, Real.mul_rpow hZ0 hc.le]
-  have e1 : Z ^ p * a ^ p + Z ^ p * b ^ p + Z ^ p * c ^ p
-          = Z ^ p * (a ^ p + b ^ p + c ^ p) := by ring
-  have e2 : Z ^ (p/2) * a ^ (p/2) + Z ^ (p/2) * b ^ (p/2) + Z ^ (p/2) * c ^ (p/2)
-          = Z ^ (p/2) * (a ^ (p/2) + b ^ (p/2) + c ^ (p/2)) := by ring
-  rw [e1, e2, mul_pow, half_pow_sq hZ]
-  have hzp : (0:ℝ) < Z ^ p := Real.rpow_pos_of_pos hZ p
-  have hden : ((a ^ (p/2) + b ^ (p/2) + c ^ (p/2)) ^ (2:ℕ)) ≠ 0 := pow_ne_zero 2 hS
-  field_simp
+/-- An anchored relation transforms with the factor `Z`, so it survives
+rescaling only at `Z = 1`: it is a statement about one evaluation point. -/
+theorem anchor_not_invariant {Z c S : ℝ} (v : Fin 3 → ℝ) (i : Fin 3)
+    (hZ : 0 < Z) (hcS : c * S ≠ 0) (hold : v i = c * S) :
+    scale Z v i = c * S ↔ Z = 1 := by
+  unfold scale
+  rw [hold]
+  constructor
+  · intro h
+    have := mul_right_cancel₀ hcS (by linarith [h] : Z * (c * S) = 1 * (c * S))
+    exact this
+  · intro h; rw [h, one_mul]
+
+/-- Contrapositive form, stated for the record: two distinct positive scales
+cannot both satisfy the same anchored relation. -/
+theorem anchor_unique_scale {Z₁ Z₂ c S : ℝ} (v : Fin 3 → ℝ) (i : Fin 3)
+    (hZ₁ : 0 < Z₁) (hZ₂ : 0 < Z₂) (hcS : c * S ≠ 0) (hold : v i = c * S)
+    (h1 : scale Z₁ v i = c * S) (h2 : scale Z₂ v i = c * S) : Z₁ = Z₂ := by
+  rw [anchor_not_invariant v i hZ₁ hcS hold] at h1
+  rw [anchor_not_invariant v i hZ₂ hcS hold] at h2
+  rw [h1, h2]
 
 end FrameInvariance
