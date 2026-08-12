@@ -1,0 +1,74 @@
+{
+ "G1_enumeration": {
+  "with_G": 600,
+  "without_G": 468,
+  "raw": [
+   660,
+   495
+  ],
+  "degenerate_removed": [
+   60,
+   27
+  ],
+  "status": "PASS"
+ },
+ "G2_no_double_count": {
+  "forward": 600,
+  "reverse": 600,
+  "status": "PASS"
+ },
+ "G4_known_answer": {
+  "required": [
+   "G^2=m_c*m_b",
+   "m_s^2=m_d*mu*",
+   "m_s^2=m_u*m_b",
+   "m_u^2=2m_e*m_d"
+  ],
+  "found": [
+   "all"
+  ],
+  "status": "PASS"
+ },
+ "G7_no_degenerate": {
+  "collinear_sets": [
+   [
+    "2m_e",
+    "m_e"
+   ],
+   [
+    "G",
+    "mu*"
+   ]
+  ],
+  "violations": 0,
+  "status": "PASS"
+ },
+ "G5_null_sanity": {
+  "mean_hits_at_5pct": 2.5375,
+  "status": "PASS"
+ },
+ "G8_support": {
+  "observed_hierarchy": 73930.84622383985,
+  "reach_fraction": {
+   "A1": 0.42866666666666664,
+   "A2": 0.11733333333333333,
+   "A3": 0.24133333333333334,
+   "A4": 0.004
+  },
+  "admissible": [
+   "A1",
+   "A2",
+   "A3"
+  ],
+  "excluded": [
+   "A4"
+  ],
+  "threshold": 0.05,
+  "status": "PASS"
+ },
+ "G6_seed": {
+  "spec_sha256": "6fd71ee76783cc8c81d2b062c3f18d299b76b5be3c1fc984ecb4faa59e63a84a",
+  "seed": 8058944037425761420,
+  "status": "PASS"
+ }
+}

@@ -1,0 +1,78 @@
+{
+ "0.005": {
+  "obs": 3,
+  "A1": {
+   "p": 0.0,
+   "null_mean": 0.026252,
+   "null_max": 2
+  },
+  "A2": {
+   "p": 0.0,
+   "null_mean": 0.018928,
+   "null_max": 2
+  },
+  "A3": {
+   "p": 0.0,
+   "null_mean": 0.00975,
+   "null_max": 2
+  },
+  "worst_p": 0.0
+ },
+ "0.01": {
+  "obs": 3,
+  "A1": {
+   "p": 1e-05,
+   "null_mean": 0.0523,
+   "null_max": 3
+  },
+  "A2": {
+   "p": 2e-06,
+   "null_mean": 0.038304,
+   "null_max": 3
+  },
+  "A3": {
+   "p": 0.0,
+   "null_mean": 0.019848,
+   "null_max": 2
+  },
+  "worst_p": 1e-05
+ },
+ "0.02": {
+  "obs": 5,
+  "A1": {
+   "p": 0.0,
+   "null_mean": 0.104458,
+   "null_max": 3
+  },
+  "A2": {
+   "p": 0.0,
+   "null_mean": 0.07674,
+   "null_max": 3
+  },
+  "A3": {
+   "p": 0.0,
+   "null_mean": 0.039536,
+   "null_max": 3
+  },
+  "worst_p": 0.0
+ },
+ "0.05": {
+  "obs": 6,
+  "A1": {
+   "p": 0.0,
+   "null_mean": 0.263186,
+   "null_max": 4
+  },
+  "A2": {
+   "p": 0.0,
+   "null_mean": 0.191968,
+   "null_max": 4
+  },
+  "A3": {
+   "p": 0.0,
+   "null_mean": 0.099398,
+   "null_max": 3
+  },
+  "worst_p": 0.0
+ }
+}
